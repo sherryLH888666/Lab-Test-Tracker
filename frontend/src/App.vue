@@ -18,9 +18,9 @@
       <input v-model="keyword" placeholder="Search sample id / test name" @input="onFilter" />
       <select v-model="statusFilter" @change="load">
         <option value="">All status</option>
-        <option value="pass">pass</option>
-        <option value="fail">fail</option>
-        <option value="pending">pending</option>
+        <option value="pass">PASS</option>
+        <option value="fail">FAIL</option>
+        <option value="pending">PENDING</option>
       </select>
     </section>
 
