@@ -1,0 +1,12 @@
+services:
+  app:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      - SQLITE_DB=/data/labtracker.db
+    volumes:
+      - app-data:/data
+
+volumes:
+  app-data:

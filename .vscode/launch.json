@@ -1,0 +1,37 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Python: Uvicorn (Backend)",
+      "type": "python",
+      "request": "launch",
+      "python": "${workspaceFolder}/.venv/bin/python",
+      "module": "uvicorn",
+      "args": ["app.main:app", "--reload", "--port", "8000"],
+      "cwd": "${workspaceFolder}/backend",
+      "env": { "PYTHONPATH": "${workspaceFolder}/backend" },
+      "jinja": true,
+      "description": "在 Cursor/VS Code 中启动后端并支持断点调试"
+    },
+    {
+      "name": "Frontend: Chrome (5173)",
+      "type": "chrome",
+      "request": "launch",
+      "url": "http://localhost:5173",
+      "webRoot": "${workspaceFolder}/frontend",
+      "preLaunchTask": "npm: dev (frontend)",
+      "sourceMapPathOverrides": {
+        "vite:///./src/*": "${workspaceFolder}/frontend/src/*",
+        "webpack:///src/*": "${workspaceFolder}/frontend/src/*",
+        "webpack:///./src/*": "${workspaceFolder}/frontend/src/*"
+      },
+      "description": "启动 Vite dev server 并在 Chrome 中打开，支持 .vue 断点"
+    }
+  ],
+  "compounds": [
+    {
+      "name": "Full Stack (Backend + Frontend)",
+      "configurations": ["Python: Uvicorn (Backend)", "Frontend: Chrome (5173)"]
+    }
+  ]
+}

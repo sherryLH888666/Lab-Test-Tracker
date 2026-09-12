@@ -1,0 +1,28 @@
+trigger:
+  - main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  imageName: 'labtesttracker'
+  registry: 'labtrackeracr.azurecr.io'
+
+steps:
+  - task: Docker@2
+    displayName: 'Build & push image to ACR'
+    inputs:
+      command: buildAndPush
+      containerRegistry: 'UL-Azure-ACR'      # Azure DevOps service connection -> your ACR
+      repository: $(imageName)
+      Dockerfile: 'Dockerfile'
+      tags: |
+        $(Build.BuildId)
+        latest
+
+  - task: AzureWebAppContainer@1
+    displayName: 'Deploy to Azure App Service (Linux)'
+    inputs:
+      azureSubscription: 'UL-Azure-Conn'     # service connection -> your Azure subscription
+      appName: 'labtesttracker-app'          # your App Service name
+      imageName: '$(registry)/$(imageName):$(Build.BuildId)'

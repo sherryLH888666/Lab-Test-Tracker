@@ -1,0 +1,29 @@
+name: Deploy to Railway
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# Allow the workflow to create/use the secret-backed deploy token.
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Railway CLI
+        run: npm install -g @railway/cli
+
+      - name: Deploy to Railway
+        # RAILWAY_TOKEN is a *project* token (Settings -> Tokens in the
+        # Railway project). It is already bound to the project, so no
+        # `railway link` is needed. --yes avoids interactive prompts,
+        # --detach returns once the build is dispatched.
+        run: railway up --service lab-test-tracker --yes --detach
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
